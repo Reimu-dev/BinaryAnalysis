@@ -3,20 +3,26 @@ INC = inc
 BUILD = build
 BIN = bin
 
-CC = g++
-CFLAGS = -std=c++17 -I $(INC)/ -lbfd
+CC = gcc
+CXX = g++
+CFLAGS = -std=c++17 -I $(INC)/ -lbfd -lcapstone
 
-_OBJ = loader_demo.o Loader.o
-OBJ = $(patsubst %, $(BUILD)/%, $(_OBJ))
-TARGET = loader_demo
+_TARGET = loader_demo basic_capstone_liner
+TARGET = $(patsubst %, $(BIN)/%, $(_TARGET))
+
+.PHONY: all clean
+
+all: $(TARGET)
 
 $(BUILD)/%.o: $(SRC)/%.cc
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CXX) -c -o $@ $< $(CFLAGS)
 
-$(BIN)/$(TARGET): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+$(BIN)/loader_demo: $(BUILD)/Loader.o $(BUILD)/loader_demo.o
+	$(CXX) -o $@ $^ $(CFLAGS)
 
-.PHONY: clean
+$(BIN)/basic_capstone_liner: $(BUILD)/Loader.o $(BUILD)/basic_capstone_liner.o
+	$(CXX) -o $@ $^ $(CFLAGS)
+
 clean:
 	rm -f $(BUILD)/*.o
-	rm -f $(BIN)/$(TARGET)
+	rm -f $(BIN)/*
