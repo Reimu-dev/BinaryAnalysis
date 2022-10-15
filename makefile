@@ -7,7 +7,7 @@ CC = gcc
 CXX = g++
 CFLAGS = -std=c++17 -I $(INC)/ -lbfd -lcapstone
 
-_TARGET = loader_demo basic_capstone_liner
+_TARGET = loader_demo basic_capstone_liner basic_capstone_recursive
 TARGET = $(patsubst %, $(BIN)/%, $(_TARGET))
 
 .PHONY: all clean
@@ -21,6 +21,9 @@ $(BIN)/loader_demo: $(BUILD)/Loader.o $(BUILD)/loader_demo.o
 	$(CXX) -o $@ $^ $(CFLAGS)
 
 $(BIN)/basic_capstone_liner: $(BUILD)/Loader.o $(BUILD)/basic_capstone_liner.o
+	$(CXX) -o $@ $^ $(CFLAGS)
+
+$(BIN)/basic_capstone_recursive: $(BUILD)/Loader.o $(BUILD)/basic_capstone_recursive.o
 	$(CXX) -o $@ $^ $(CFLAGS)
 
 clean:
