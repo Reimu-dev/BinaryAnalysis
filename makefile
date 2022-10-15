@@ -10,6 +10,9 @@ CFLAGS = -std=c++17 -I $(INC)/ -lbfd -lcapstone
 _TARGET = loader_demo basic_capstone_liner basic_capstone_recursive
 TARGET = $(patsubst %, $(BIN)/%, $(_TARGET))
 
+$(shell if [ ! -d $(BUILD) ]; then mkdir -p $(BUILD); fi)
+$(shell if [ ! -d $(BIN) ]; then mkdir -p $(BIN); fi)
+
 .PHONY: all clean
 
 all: $(TARGET)
